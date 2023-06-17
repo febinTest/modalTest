@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* CSS for modal view */
+    .modal {
+      display: none; /* Hide the modal by default */
+      position: fixed; /* Position it as fixed */
+      z-index: 1; /* Set a high z-index value */
+      left: 0;
+      bottom: 0; /* Attach modal to the bottom */
+      width: 100%;
+      height: 50%; /* Half of the page height */
+      overflow: auto; /* Enable scrolling if needed */
+      background-color: rgba(0, 0, 0, 0.4); /* Black background with transparency */
+      animation: slideUp 0.3s ease-in-out; /* Opening animation */
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      margin-top: 10%;
+    }
+
+    /* CSS for closing animation */
+    .modal.hide {
+      animation: slideDown 0.3s ease-in-out; /* Closing animation */
+    }
+
+    /* Keyframes for slide up animation */
+    @keyframes slideUp {
+      from {
+        bottom: -50%; /* Start position */
+      }
+      to {
+        bottom: 0; /* End position */
+      }
+    }
+
+    /* Keyframes for slide down animation */
+    @keyframes slideDown {
+      from {
+        bottom: 0; /* Start position */
+      }
+      to {
+        bottom: -50%; /* End position */
+      }
+    }
+
+    /* CSS to center the button */
+    .center-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* Media query for mobile devices */
+    @media only screen and (max-width: 600px) {
+      .modal-content {
+        width: 90%; /* Adjust the width for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body onclick="closeModalOnClick(event)">
+  <!-- Button to open the modal -->
+  <div class="center-button">
+    <button onclick="openModal()">Open Modal</button>
+  </div>
+
+  <!-- The modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <!-- Input fields -->
+      <input type="text" id="input1" onkeyup="focusNextField(this, 'input2')" maxlength="10" placeholder="Input 1"><br><br>
+      <input type="text" id="input2" onkeyup="focusNextField(this, 'input3')" placeholder="Input 2"><br><br>
+      <input type="text" id="input3" placeholder="Input 3">
+    </div>
+  </div>
+
+  <script>
+    // Function to open the modal
+    function openModal() {
+      var modal = document.getElementById("myModal");
+      modal.style.display = "block";
+    }
+
+    // Function to close the modal
+    function closeModal() {
+      var modal = document.getElementById("myModal");
+      modal.classList.add("hide"); // Add hide class for closing animation
+      setTimeout(function() {
+        modal.style.display = "none"; // Hide modal after animation completes
+        modal.classList.remove("hide"); // Remove hide class for future openings
+      }, 300); // Delay hiding the modal to match the animation duration
+    }
+
+    // Function to close the modal when clicking outside of it
+    function closeModalOnClick(event) {
+      var modal = document.getElementById("myModal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // Function to shift focus to the next input field
+    function focusNextField(currentField, nextFieldId) {
+      if (currentField.value.length >= 10) {
+        document.getElementById(nextFieldId).focus();
+      }
+    }
+  </script>
+</body>
+</html>
